@@ -71,10 +71,6 @@ Em caso de falha, o screenshot da tela fica em `E2E/screenshots/`.
 
 ## Decisões e particularidades do app
 
-- **Device real, não simulador.** O `LojaEBAC-sim.app` do curso foi compilado só para Intel, e o Sauce só oferece simuladores iOS em Mac ARM.
-- **Profundidade da árvore de elementos.** A Home lista centenas de categorias criadas por outros alunos no backend compartilhado, e ler a árvore inteira estoura o tempo do XCUITest. Por isso a Home usa profundidade 38 e as demais telas usam 60 (`page_home.js` e hook `before` da config).
-- **Busca.** O app consulta o servidor a cada letra digitada, e a resposta de uma busca parcial pode sobrescrever a final. Por isso `BuscaPage.preencherBusca()` redigita a última letra até o produto aparecer.
 - **Produto próprio.** O catálogo compartilhado muda com frequência: produtos somem, ficam sem estoque ou sem preço promocional. Com total R$ 0, a API recusa o pedido sem mostrar erro no app. Por isso o checkout cria o próprio produto.
-- **Teclado.** Os campos do endereço terminam com a tecla "next" do teclado. No último campo (CEP), ela salva o endereço, já que o botão "Save" fica coberto pelo teclado.
 - **Confirmação.** "Transaction successful!" faz parte da imagem animada, não é texto. O teste valida o título "Order Success" e a presença da imagem.
 - **Seletores.** Sempre que possível usamos os `testID` do app (`~email`, `~btnLogin`, `~addToCart`...). Elementos sem `testID` são localizados por texto ou placeholder via `-ios predicate string`.
