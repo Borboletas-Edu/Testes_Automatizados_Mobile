@@ -7,7 +7,7 @@ class LoginFlow {
   // Cada teste começa assim, sem depender do estado deixado pelo anterior.
   async acessarLogin() {
     await HomePage.reiniciarApp()
-    await HomePage.aguardarTela() // tocar na aba antes da Home carregar não tem efeito
+    await HomePage.aguardarTela()
     await HomePage.clicarAbaConta()
     await LoginPage.aguardarTela()
   }

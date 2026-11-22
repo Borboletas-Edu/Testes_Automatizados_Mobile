@@ -26,7 +26,7 @@ export const config = {
     'appium:waitForIdleTimeout': 0, // a Home tem carrossel animado: não esperar a tela "parar"
     'sauce:options': {
       appiumVersion: 'latest',
-      build: `EBAC Store iOS - ${new Date().toISOString().slice(0, 16)}`
+      build: process.env.SAUCE_BUILD || `EBAC Store iOS - ${new Date().toISOString().slice(0, 16)}`
     }
   }],
 
@@ -42,6 +42,12 @@ export const config = {
     'spec',
     ['allure', { outputDir: path.join(ROOT, 'allure-results'), disableWebdriverStepsReporting: true }]
   ],
+
+  // Relatório e screenshots só da execução atual
+  onPrepare: () => {
+    fs.rmSync(path.join(ROOT, 'allure-results'), { recursive: true, force: true })
+    fs.rmSync(path.join(ROOT, 'screenshots'), { recursive: true, force: true })
+  },
 
   before: async () => {
     await driver.updateSettings({ snapshotMaxDepth: 60, customSnapshotTimeout: 20 })
