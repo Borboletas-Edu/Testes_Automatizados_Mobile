@@ -71,9 +71,9 @@ Em caso de falha, o screenshot da tela fica em `E2E/screenshots/`.
 
 ## Integração contínua (GitHub Actions)
 
-O workflow `.github/workflows/testes-mobile.yml` (na raiz do repositório) roda a suíte no Sauce Labs:
+O workflow `.github/workflows/ios-ebac.yml` (na raiz do repositório) roda a suíte no Sauce Labs:
 
-- **Quando:** push na branch `ci`, pull request para `main` ou manualmente (aba Actions → "Run workflow").
+- **Quando:** apenas manual (aba Actions → "IOS-EBAC - Testes Mobile" → "Run workflow", escolhendo a branch).
 - **Passos:** instala o Node 24 e as dependências, baixa o `.ipa`, envia para o Sauce, executa `npm test` e publica o relatório Allure e os screenshots como artefato da execução.
 - **Configuração no GitHub** (Settings → Secrets and variables → Actions):
   - Secrets: `SAUCE_USERNAME` e `SAUCE_ACCESS_KEY`

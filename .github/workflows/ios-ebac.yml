@@ -1,0 +1,55 @@
+name: IOS-EBAC - Testes Mobile (Sauce Labs)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  testes-ios:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    defaults:
+      run:
+        working-directory: IOS-EBAC/E2E
+
+    env:
+      SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
+      SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
+      SAUCE_REGION: ${{ vars.SAUCE_REGION || 'us-west-1' }}
+      SAUCE_BUILD: "EBAC Store iOS - GitHub Actions #${{ github.run_number }}"
+
+    steps:
+      - name: Baixar o código
+        uses: actions/checkout@v4
+
+      - name: Instalar Node 24
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: IOS-EBAC/E2E/package-lock.json
+
+      - name: Instalar dependências
+        run: npm ci
+
+      - name: Baixar o app e enviar para o Sauce Labs
+        run: |
+          npm run app:download
+          npm run app:upload
+
+      - name: Executar os testes
+        run: npm test
+
+      - name: Gerar relatório Allure
+        if: always()
+        run: npx allure generate allure-results --clean -o allure-report
+
+      - name: Publicar relatório e screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: relatorio-testes-ios
+          path: |
+            IOS-EBAC/E2E/allure-report
+            IOS-EBAC/E2E/screenshots
+          if-no-files-found: ignore
