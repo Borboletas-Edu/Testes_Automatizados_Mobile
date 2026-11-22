@@ -18,8 +18,15 @@ class HomePage {
     await this._naHome(() => $('-ios predicate string:label ENDSWITH "Search Products"').waitForDisplayed({ timeout: 30000 }))
   }
 
+  // Logo após abrir o app, o toque na aba às vezes é ignorado: repete até sair da Home
   async clicarAbaConta() {
-    await this._naHome(() => $('~tab-Account').click())
+    await this._naHome(() => driver.waitUntil(async () => {
+      if (!(await $('-ios predicate string:label ENDSWITH "Search Products"').isDisplayed())) return true
+
+      await $('~tab-Account').click()
+      await driver.pause(1500)
+      return false
+    }, { timeout: 30000, interval: 0, timeoutMsg: 'A aba Account não abriu' }))
   }
 
   async clicarBusca() {
