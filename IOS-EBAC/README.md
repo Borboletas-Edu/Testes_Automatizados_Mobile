@@ -69,6 +69,18 @@ npm run report              # relatório Allure
 
 Em caso de falha, o screenshot da tela fica em `E2E/screenshots/`.
 
+## Integração contínua (GitHub Actions)
+
+O workflow `.github/workflows/testes-mobile.yml` (na raiz do repositório) roda a suíte no Sauce Labs:
+
+- **Quando:** push na branch `ci`, pull request para `main` ou manualmente (aba Actions → "Run workflow").
+- **Passos:** instala o Node 24 e as dependências, baixa o `.ipa`, envia para o Sauce, executa `npm test` e publica o relatório Allure e os screenshots como artefato da execução.
+- **Configuração no GitHub** (Settings → Secrets and variables → Actions):
+  - Secrets: `SAUCE_USERNAME` e `SAUCE_ACCESS_KEY`
+  - Variable (opcional): `SAUCE_REGION` (padrão `us-west-1`)
+
+No Sauce Labs, as execuções aparecem com o build `EBAC Store iOS - GitHub Actions #<número da execução>`, cada teste com o vídeo da execução.
+
 ## Decisões e particularidades do app
 
 - **Produto próprio.** O catálogo compartilhado muda com frequência: produtos somem, ficam sem estoque ou sem preço promocional. Com total R$ 0, a API recusa o pedido sem mostrar erro no app. Por isso o checkout cria o próprio produto.
