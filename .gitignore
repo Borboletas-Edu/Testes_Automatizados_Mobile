@@ -1,0 +1,10 @@
+# app
+app/*.ipa
+
+# E2E
+E2E/node_modules/
+E2E/.env
+E2E/logs/
+E2E/screenshots/
+E2E/allure-results/
+E2E/allure-report/
